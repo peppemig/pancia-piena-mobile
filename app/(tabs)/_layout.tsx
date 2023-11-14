@@ -40,7 +40,7 @@ const Layout = () => {
         name="products/index"
         options={{
           tabBarLabel: "Prodotti",
-          title: "Prodotti",
+          title: "I tuoi prodotti",
           tabBarIcon: ({ size, color }) => (
             <Feather name="package" size={size} color={color} />
           ),

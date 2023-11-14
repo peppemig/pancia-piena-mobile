@@ -8,6 +8,7 @@ import {
   Keyboard,
   StyleSheet,
   View,
+  ActivityIndicator,
 } from "react-native";
 import { loginWithEmailAndPassword } from "./config/firebase";
 import { useAuthState } from "./providers/AuthProvider";
@@ -21,18 +22,24 @@ const loginImage = require("../assets/login.png");
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
   const auth = useAuthState();
 
   const login = () => {
+    setIsLoading(true);
     Keyboard.dismiss();
     loginWithEmailAndPassword(email, password)
-      .then(() => router.push("/orders/"))
-      .catch((e) => {
+      .then(() => {
+        setIsLoading(false);
+        router.push("/orders/");
+      })
+      .catch(() => {
+        setIsLoading(false);
         Alert.alert(
           "Ooops! C'è stato un problema",
-          "Riprova ad effettuare l'accesso",
+          "Prova ad effettuare nuovamente l'accesso",
           [
             {
               text: "Chiudi",
@@ -46,10 +53,14 @@ const Login = () => {
       });
   };
 
-  if (auth.state === "loading") {
+  if (auth.state === "loading" || isLoading) {
     return (
-      <SafeAreaView>
-        <Text>Loading...</Text>
+      <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+        <ActivityIndicator
+          size="large"
+          color="black"
+          style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }}
+        />
       </SafeAreaView>
     );
   }
@@ -80,14 +91,6 @@ const Login = () => {
           <Ionicons name="fast-food" size={30} />
         </View>
         <View style={{ gap: 6 }}>
-          <Button
-            variant="primary"
-            label="Accedi con Google"
-            icon="logo-google"
-            iconColor="white"
-            iconSize={18}
-          />
-          <Text style={{ textAlign: "center", fontWeight: "500" }}>Oppure</Text>
           <View style={styles.inputContainer}>
             <TextInput
               placeholder="Email"
@@ -114,12 +117,19 @@ const Login = () => {
             <Ionicons name="lock-closed" size={20} />
           </View>
           <Button label="Accedi" variant="primary" onPress={login} />
+          <Text style={{ textAlign: "center", fontWeight: "500" }}>Oppure</Text>
+          <Button
+            variant="secondary"
+            label="Accedi con Google"
+            icon="logo-google"
+            iconSize={18}
+          />
         </View>
         <Text style={{ textAlign: "center" }}>
-          Non hai ancora un account?{" "}
+          Non hai un account?{" "}
           <Text
             onPress={() => setIsVisible(true)}
-            style={{ fontWeight: "bold" }}
+            style={{ fontWeight: "bold", textDecorationStyle: "solid" }}
           >
             Registrati
           </Text>
@@ -136,12 +146,13 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "white",
   },
   container: {
     flex: 1,
     alignSelf: "stretch",
     justifyContent: "center",
-    padding: 20,
+    padding: 10,
     gap: 20,
   },
   inputContainer: {

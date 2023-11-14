@@ -1,15 +1,12 @@
 import { initializeApp } from "firebase/app";
-import { initializeAuth, getReactNativePersistence } from "firebase/auth";
 import {
   GoogleAuthProvider,
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
   signOut,
-  signInWithPopup,
 } from "firebase/auth";
-import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
+import usersService from "../api/usersService";
 
 const firebaseConfig = {
   apiKey: process.env.EXPO_PUBLIC_GOOGLE_API_KEY,
@@ -24,12 +21,33 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
+// TODO
+//const signInWithGoogle = async () => {
+//  const { user } = await signInWithPopup(auth, googleProvider);
+//  await usersService.createUserWithGoogle(user);
+//};
+
 const loginWithEmailAndPassword = async (email: string, password: string) => {
   await signInWithEmailAndPassword(auth, email, password);
+};
+
+const registerWithEmailAndPassword = async (
+  email: string,
+  password: string,
+  name: string,
+  surname: string
+) => {
+  const { user } = await createUserWithEmailAndPassword(auth, email, password);
+  await usersService.createUserWithEmail(user, name, surname);
 };
 
 const logOut = () => {
   signOut(auth);
 };
 
-export { auth, loginWithEmailAndPassword, logOut };
+export {
+  auth,
+  loginWithEmailAndPassword,
+  logOut,
+  registerWithEmailAndPassword,
+};
