@@ -15,7 +15,7 @@ const Layout = () => {
   }
 
   return (
-    <Tabs>
+    <Tabs screenOptions={{ tabBarActiveTintColor: "black" }}>
       <Tabs.Screen
         name="orders/index"
         options={{

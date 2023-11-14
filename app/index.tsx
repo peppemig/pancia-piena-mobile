@@ -9,17 +9,20 @@ import {
   StyleSheet,
   View,
   Pressable,
+  Modal,
 } from "react-native";
 import { loginWithEmailAndPassword } from "./config/firebase";
 import { useAuthState } from "./providers/AuthProvider";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import RegisterModal from "./components/RegisterModal";
 
 const loginImage = require("../assets/login.png");
 
-const Page = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
   const auth = useAuthState();
 
@@ -30,7 +33,7 @@ const Page = () => {
       .catch((e) => {
         Alert.alert(
           "Ooops! C'è stato un problema",
-          e.message,
+          "Riprova ad effettuare l'accesso",
           [
             {
               text: "Chiudi",
@@ -113,11 +116,15 @@ const Page = () => {
         </View>
         <Text style={{ textAlign: "center" }}>
           Non hai ancora un account?{" "}
-          <Link href={"/register"} asChild>
-            <Text style={{ fontWeight: "bold" }}>Registrati</Text>
-          </Link>
+          <Text
+            onPress={() => setIsVisible(true)}
+            style={{ fontWeight: "bold" }}
+          >
+            Registrati
+          </Text>
         </Text>
       </View>
+      <RegisterModal isVisible={isVisible} setIsVisible={setIsVisible} />
     </SafeAreaView>
   );
 };
@@ -160,4 +167,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Page;
+export default Login;

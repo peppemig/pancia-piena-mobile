@@ -6,7 +6,6 @@ const Layout = () => {
     <AuthContextProvider>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" options={{ title: "Accedi" }} />
-        <Stack.Screen name="register" options={{ title: "Registrati" }} />
       </Stack>
     </AuthContextProvider>
   );
