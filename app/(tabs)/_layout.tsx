@@ -37,11 +37,10 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
-        name="products"
+        name="products/index"
         options={{
           tabBarLabel: "Prodotti",
           title: "Prodotti",
-          headerShown: false,
           tabBarIcon: ({ size, color }) => (
             <Feather name="package" size={size} color={color} />
           ),

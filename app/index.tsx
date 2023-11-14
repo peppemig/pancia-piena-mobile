@@ -1,4 +1,4 @@
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Image } from "expo-image";
 import {
@@ -8,14 +8,13 @@ import {
   Keyboard,
   StyleSheet,
   View,
-  Pressable,
-  Modal,
 } from "react-native";
 import { loginWithEmailAndPassword } from "./config/firebase";
 import { useAuthState } from "./providers/AuthProvider";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import RegisterModal from "./components/RegisterModal";
+import RegisterModal from "./components/register/RegisterModal";
+import Button from "./components/ui/Button";
 
 const loginImage = require("../assets/login.png");
 
@@ -81,10 +80,13 @@ const Login = () => {
           <Ionicons name="fast-food" size={30} />
         </View>
         <View style={{ gap: 6 }}>
-          <Pressable style={styles.button}>
-            <Ionicons name="logo-google" color="white" size={18} />
-            <Text style={styles.buttonText}>Accedi con Google</Text>
-          </Pressable>
+          <Button
+            variant="primary"
+            label="Accedi con Google"
+            icon="logo-google"
+            iconColor="white"
+            iconSize={18}
+          />
           <Text style={{ textAlign: "center", fontWeight: "500" }}>Oppure</Text>
           <View style={styles.inputContainer}>
             <TextInput
@@ -100,6 +102,7 @@ const Login = () => {
           </View>
           <View style={styles.inputContainer}>
             <TextInput
+              secureTextEntry
               placeholder="Password"
               value={password}
               onChangeText={(text) => setPassword(text)}
@@ -110,9 +113,7 @@ const Login = () => {
             />
             <Ionicons name="lock-closed" size={20} />
           </View>
-          <Pressable style={styles.button} onPress={login}>
-            <Text style={styles.buttonText}>Accedi</Text>
-          </Pressable>
+          <Button label="Accedi" variant="primary" onPress={login} />
         </View>
         <Text style={{ textAlign: "center" }}>
           Non hai ancora un account?{" "}
@@ -143,26 +144,12 @@ const styles = StyleSheet.create({
     padding: 20,
     gap: 20,
   },
-  button: {
-    backgroundColor: "black",
-    padding: 16,
-    borderRadius: 1000,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
-    gap: 10,
-  },
-  buttonText: {
-    textAlign: "center",
-    color: "white",
-    fontWeight: "500",
-  },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    borderRadius: 1000,
-    borderWidth: 2,
+    borderRadius: 10,
+    borderWidth: 1,
     paddingHorizontal: 14,
   },
 });
