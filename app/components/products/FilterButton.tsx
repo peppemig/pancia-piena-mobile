@@ -29,6 +29,7 @@ const FilterButton = ({
         style={{
           color: currentFilter === value ? "white" : "black",
           fontWeight: "400",
+          fontSize: 14,
         }}
       >
         {label}

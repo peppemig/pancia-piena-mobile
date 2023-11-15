@@ -1,7 +1,8 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Alert, ActivityIndicator } from "react-native";
 import { User } from "firebase/auth";
-import React from "react";
-import Button from "../ui/Button";
+import React, { useState } from "react";
+import productsService from "../../api/productsService";
+import { useAuthState } from "../../providers/AuthProvider";
 
 type ProductCardProps = {
   id: string;
@@ -12,7 +13,54 @@ type ProductCardProps = {
   refreshProducts: () => void;
 };
 
-const ProductCard = ({ id, name, price, category }: ProductCardProps) => {
+const ProductCard = ({
+  id,
+  name,
+  price,
+  category,
+  refreshProducts,
+}: ProductCardProps) => {
+  const { user } = useAuthState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const deleteProduct = () => {
+    setIsLoading(true);
+    user!
+      .getIdToken()
+      .then((token) => {
+        productsService
+          .deleteProduct(token, id)
+          .then(() => refreshProducts())
+          .catch(() => {
+            setIsLoading(false);
+          });
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const onDelete = () => {
+    Alert.alert(
+      "Elimina prodotto",
+      "Sei sicuro di voler eliminare questo prodotto?",
+      [
+        {
+          text: "Si",
+          style: "default",
+          onPress: () => deleteProduct(),
+        },
+        {
+          text: "Chiudi",
+          style: "cancel",
+        },
+      ],
+      {
+        cancelable: false,
+      }
+    );
+  };
+
   return (
     <View
       style={{
@@ -47,15 +95,21 @@ const ProductCard = ({ id, name, price, category }: ProductCardProps) => {
           <Text style={{ fontWeight: "700" }}>Modifica</Text>
         </Pressable>
         <Pressable
+          onPress={onDelete}
           style={{
             borderWidth: 1,
             padding: 10,
             borderRadius: 10,
             borderColor: "#EF4444",
             backgroundColor: "#EF4444",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 6,
           }}
         >
           <Text style={{ color: "white", fontWeight: "700" }}>Elimina</Text>
+          {isLoading && <ActivityIndicator size="small" color="white" />}
         </Pressable>
       </View>
     </View>

@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderRadius: 10,
     borderWidth: 1,
+    borderColor: "#E2E8F0",
     paddingHorizontal: 14,
   },
 });

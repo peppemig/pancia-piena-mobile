@@ -13,7 +13,6 @@ import productsService from "../../api/productsService";
 import { useFocusEffect } from "expo-router";
 import React from "react";
 import { categories } from "../../constants/constants";
-import Button from "../../components/ui/Button";
 import FilterButton from "../../components/products/FilterButton";
 import ProductCard from "../../components/products/ProductCard";
 
