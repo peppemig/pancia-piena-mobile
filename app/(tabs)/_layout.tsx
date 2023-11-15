@@ -15,7 +15,12 @@ const Layout = () => {
   }
 
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "black" }}>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: "black",
+        tabBarHideOnKeyboard: true,
+      }}
+    >
       <Tabs.Screen
         name="orders/index"
         options={{
@@ -37,9 +42,10 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
-        name="products/index"
+        name="products"
         options={{
           tabBarLabel: "Prodotti",
+          headerShown: false,
           title: "I tuoi prodotti",
           tabBarIcon: ({ size, color }) => (
             <Feather name="package" size={size} color={color} />

@@ -16,18 +16,37 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import RegisterModal from "./components/register/RegisterModal";
 import Button from "./components/ui/Button";
+import * as z from "zod";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-const loginImage = require("../assets/login.png");
+const loginImage = require("../assets/login.svg");
+
+const formSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(7).max(50),
+});
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
   const auth = useAuthState();
 
-  const login = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const login = (values: z.infer<typeof formSchema>) => {
+    const { email, password } = values;
     setIsLoading(true);
     Keyboard.dismiss();
     loginWithEmailAndPassword(email, password)
@@ -73,7 +92,10 @@ const Login = () => {
           placeholder="Image"
           contentFit="cover"
           transition={1000}
-          style={{ width: "100%", flex: 1 }}
+          style={{
+            width: "100%",
+            flex: 1,
+          }}
         />
         <View
           style={{
@@ -92,31 +114,61 @@ const Login = () => {
         </View>
         <View style={{ gap: 6 }}>
           <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="Email"
-              value={email}
-              onChangeText={(text) => setEmail(text)}
-              style={{
-                flex: 1,
-                padding: 10,
+            <Controller
+              control={control}
+              rules={{
+                required: true,
               }}
+              name="email"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  placeholder="Email"
+                  onBlur={onBlur}
+                  value={value}
+                  onChangeText={onChange}
+                  style={{
+                    flex: 1,
+                    padding: 10,
+                  }}
+                />
+              )}
             />
             <Ionicons name="mail" size={20} />
           </View>
+          {errors.email?.message && (
+            <Text style={{ color: "#EF4444" }}>{errors.email.message}</Text>
+          )}
           <View style={styles.inputContainer}>
-            <TextInput
-              secureTextEntry
-              placeholder="Password"
-              value={password}
-              onChangeText={(text) => setPassword(text)}
-              style={{
-                flex: 1,
-                padding: 10,
+            <Controller
+              control={control}
+              rules={{
+                required: true,
               }}
+              name="password"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  secureTextEntry
+                  placeholder="Password"
+                  onBlur={onBlur}
+                  value={value}
+                  onChangeText={onChange}
+                  style={{
+                    flex: 1,
+                    padding: 10,
+                  }}
+                />
+              )}
             />
             <Ionicons name="lock-closed" size={20} />
           </View>
-          <Button label="Accedi" variant="primary" onPress={login} />
+          {errors.password?.message && (
+            <Text style={{ color: "#EF4444" }}>{errors.password.message}</Text>
+          )}
+          <Button
+            label="Accedi"
+            variant="primary"
+            onPress={handleSubmit(login)}
+          />
           <Text style={{ textAlign: "center", fontWeight: "500" }}>Oppure</Text>
           <Button
             variant="secondary"
@@ -152,7 +204,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: "stretch",
     justifyContent: "center",
-    padding: 10,
+    padding: 20,
     gap: 20,
   },
   inputContainer: {

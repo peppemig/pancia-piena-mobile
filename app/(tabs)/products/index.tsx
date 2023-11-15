@@ -10,14 +10,17 @@ import { useAuthState } from "../../providers/AuthProvider";
 import { useState } from "react";
 import { Product } from "../../types/types";
 import productsService from "../../api/productsService";
-import { useFocusEffect } from "expo-router";
+import { useFocusEffect, useNavigation, useRouter } from "expo-router";
 import React from "react";
 import { categories } from "../../constants/constants";
 import FilterButton from "../../components/products/FilterButton";
 import ProductCard from "../../components/products/ProductCard";
+import Button from "../../components/ui/Button";
 
 const Products = () => {
   const { user } = useAuthState();
+  const navigation = useNavigation();
+  const router = useRouter();
 
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -113,6 +116,11 @@ const Products = () => {
           />
         ))}
       </ScrollView>
+      <Button
+        label="Aggiungi un prodotto"
+        onPress={() => router.push("/products/add")}
+        variant="secondary"
+      />
       <ScrollView
         style={{ flex: 1 }}
         contentContainerStyle={{ flexGrow: 1, gap: 16 }}

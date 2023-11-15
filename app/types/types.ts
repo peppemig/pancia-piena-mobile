@@ -49,7 +49,7 @@ export type OrderRequest = {
 
 export type ProductRequest = {
   name: string;
-  price: number;
+  price: string;
   category: Category;
 };
 
