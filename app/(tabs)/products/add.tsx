@@ -185,8 +185,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: "stretch",
     justifyContent: "center",
-    padding: 20,
-    gap: 20,
+    padding: 10,
+    gap: 16,
     backgroundColor: "white",
   },
   inputContainer: {

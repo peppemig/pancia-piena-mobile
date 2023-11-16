@@ -5,11 +5,19 @@ type ButtonProps = {
   label: string;
   icon?: keyof typeof Ionicons.glyphMap;
   iconSize?: number;
+  iconPosition?: "left" | "right";
   onPress?: () => void;
   variant?: "primary" | "secondary";
 };
 
-const Button = ({ label, icon, iconSize, onPress, variant }: ButtonProps) => {
+const Button = ({
+  label,
+  icon,
+  iconSize,
+  onPress,
+  variant,
+  iconPosition,
+}: ButtonProps) => {
   return (
     <Pressable
       onPress={onPress}
@@ -25,7 +33,7 @@ const Button = ({ label, icon, iconSize, onPress, variant }: ButtonProps) => {
         gap: 10,
       }}
     >
-      {icon && (
+      {icon && iconPosition === "left" && (
         <Ionicons
           name={icon}
           color={variant === "primary" ? "white" : "black"}
@@ -41,6 +49,13 @@ const Button = ({ label, icon, iconSize, onPress, variant }: ButtonProps) => {
       >
         {label}
       </Text>
+      {icon && iconPosition === "right" && (
+        <Ionicons
+          name={icon}
+          color={variant === "primary" ? "white" : "black"}
+          size={iconSize}
+        />
+      )}
     </Pressable>
   );
 };

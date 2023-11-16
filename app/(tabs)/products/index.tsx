@@ -1,25 +1,18 @@
-import {
-  Text,
-  ScrollView,
-  View,
-  ActivityIndicator,
-  Alert,
-  StyleSheet,
-} from "react-native";
+import { Text, ScrollView, View, Alert, StyleSheet } from "react-native";
 import { useAuthState } from "../../providers/AuthProvider";
 import { useState } from "react";
 import { Product } from "../../types/types";
 import productsService from "../../api/productsService";
-import { useFocusEffect, useNavigation, useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import React from "react";
 import { categories } from "../../constants/constants";
 import FilterButton from "../../components/products/FilterButton";
 import ProductCard from "../../components/products/ProductCard";
 import Button from "../../components/ui/Button";
+import LoadingState from "../../components/LoadingState";
 
 const Products = () => {
   const { user } = useAuthState();
-  const navigation = useNavigation();
   const router = useRouter();
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -86,17 +79,7 @@ const Products = () => {
   };
 
   if (isLoading) {
-    return (
-      <View
-        style={{ flex: 1, justifyContent: "center", backgroundColor: "white" }}
-      >
-        <ActivityIndicator
-          size="large"
-          color="black"
-          style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }}
-        />
-      </View>
-    );
+    return <LoadingState />;
   }
 
   return (
@@ -150,7 +133,6 @@ const Products = () => {
                             name={fprod.name}
                             price={fprod.price}
                             category={fprod.category}
-                            user={user!}
                             refreshProducts={getProducts}
                           />
                         ))}

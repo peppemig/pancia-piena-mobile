@@ -1,12 +1,4 @@
-import {
-  View,
-  Text,
-  Pressable,
-  Alert,
-  ActivityIndicator,
-  Modal,
-} from "react-native";
-import { User } from "firebase/auth";
+import { View, Text, Pressable, Alert, ActivityIndicator } from "react-native";
 import React, { useState } from "react";
 import productsService from "../../api/productsService";
 import { useAuthState } from "../../providers/AuthProvider";

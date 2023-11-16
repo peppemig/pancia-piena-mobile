@@ -174,6 +174,7 @@ const Login = () => {
             variant="secondary"
             label="Accedi con Google"
             icon="logo-google"
+            iconPosition="left"
             iconSize={18}
           />
         </View>

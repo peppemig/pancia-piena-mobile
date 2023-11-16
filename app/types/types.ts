@@ -50,7 +50,7 @@ export type OrderRequest = {
 export type ProductRequest = {
   name: string;
   price: string;
-  category: Category;
+  category?: Category;
 };
 
 export enum Category {

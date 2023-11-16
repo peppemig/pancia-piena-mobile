@@ -207,6 +207,7 @@ const RegisterModal = ({ isVisible, setIsVisible }: RegisterModalProps) => {
             variant="secondary"
             label="Registrati con Google"
             icon="logo-google"
+            iconPosition="left"
             iconSize={18}
           />
         </View>
