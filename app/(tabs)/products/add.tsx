@@ -13,12 +13,12 @@ import { Category } from "../../types/types";
 import Button from "../../components/ui/Button";
 import { Picker } from "@react-native-picker/picker";
 import { Image } from "expo-image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuthState } from "../../providers/AuthProvider";
 import productsService from "../../api/productsService";
 import { router } from "expo-router";
 
-const loginImage = require("../../../assets/cooking.svg");
+const addImage = require("../../../assets/cooking.svg");
 
 const formSchema = z.object({
   name: z.string().min(1).max(50),
@@ -80,7 +80,7 @@ const AddProduct = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={loginImage}
+        source={addImage}
         placeholder="Image"
         contentFit="contain"
         transition={1000}
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: "stretch",
     justifyContent: "center",
-    padding: 10,
+    padding: 20,
     gap: 20,
     backgroundColor: "white",
   },
