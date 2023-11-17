@@ -6,6 +6,8 @@ type ButtonProps = {
   icon?: keyof typeof Ionicons.glyphMap;
   iconSize?: number;
   iconPosition?: "left" | "right";
+  paddingH?: number;
+  paddingV?: number;
   onPress?: () => void;
   variant?: "primary" | "secondary";
 };
@@ -17,6 +19,8 @@ const Button = ({
   onPress,
   variant,
   iconPosition,
+  paddingH,
+  paddingV,
 }: ButtonProps) => {
   return (
     <Pressable
@@ -25,7 +29,8 @@ const Button = ({
         backgroundColor: variant === "primary" ? "black" : "transparent",
         borderColor: variant === "primary" ? "" : "black",
         borderWidth: 1,
-        padding: 16,
+        paddingHorizontal: paddingH ? paddingH : 16,
+        paddingVertical: paddingV ? paddingV : 16,
         borderRadius: 10,
         alignItems: "center",
         justifyContent: "center",
