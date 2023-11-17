@@ -15,6 +15,7 @@ import { Socket } from "socket.io-client";
 import Separator from "../Separator";
 import ordersService from "../../api/ordersService";
 import { useAuthState } from "../../providers/AuthProvider";
+import errorAlert from "../errorAlert";
 
 type SendOrderModalProps = {
   isVisible: boolean;
@@ -63,11 +64,13 @@ const SendOrderModal = ({
           .catch(() => {
             setIsVisible(false);
             setIsLoading(false);
+            errorAlert("Prova ad effettuare nuovamente la richiesta");
           });
       })
       .catch(() => {
         setIsVisible(false);
         setIsLoading(false);
+        errorAlert("Prova ad effettuare nuovamente la richiesta");
       });
   };
 

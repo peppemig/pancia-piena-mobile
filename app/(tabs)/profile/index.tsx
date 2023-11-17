@@ -1,24 +1,35 @@
-import { View, Text, Button } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import { useAuthState } from "../../providers/AuthProvider";
 import { logOut } from "../../config/firebase";
 import { useRouter } from "expo-router";
+import errorAlert from "../../components/errorAlert";
+import Button from "../../components/ui/Button";
 
 const Profile = () => {
-  const auth = useAuthState();
+  const { user } = useAuthState();
   const router = useRouter();
 
   const onLogout = () => {
-    logOut();
-    router.replace("/");
+    logOut()
+      .then(() => router.replace("/"))
+      .catch(() => errorAlert("Prova ad effettuare nuovamente il logout"));
   };
 
   return (
-    <View>
-      <Text>{auth.user?.email}</Text>
-      <Button onPress={onLogout} title="Logout" />
+    <View style={styles.container}>
+      <Button onPress={onLogout} label="Logout" variant="primary" />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    gap: 10,
+    backgroundColor: "white",
+  },
+});
 
 export default Profile;

@@ -17,6 +17,7 @@ import { registerWithEmailAndPassword } from "../../config/firebase";
 import * as z from "zod";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import errorAlert from "../errorAlert";
 
 type RegisterModalProps = {
   isVisible: boolean;
@@ -59,19 +60,7 @@ const RegisterModal = ({ isVisible, setIsVisible }: RegisterModalProps) => {
       })
       .catch(() => {
         setIsLoading(false);
-        Alert.alert(
-          "Ooops! C'è stato un problema",
-          "Prova ad effettuare nuovamente la registrazione",
-          [
-            {
-              text: "Chiudi",
-              style: "cancel",
-            },
-          ],
-          {
-            cancelable: true,
-          }
-        );
+        errorAlert("Prova ad effettuare nuovamente la registrazione");
       });
   };
 

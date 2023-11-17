@@ -42,7 +42,7 @@ const registerWithEmailAndPassword = async (
 };
 
 const logOut = () => {
-  signOut(auth);
+  return signOut(auth);
 };
 
 export {

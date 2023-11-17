@@ -17,6 +17,7 @@ import { useState } from "react";
 import { useAuthState } from "../../providers/AuthProvider";
 import productsService from "../../api/productsService";
 import { router } from "expo-router";
+import errorAlert from "../../components/errorAlert";
 
 const addImage = require("../../../assets/cooking.svg");
 
@@ -56,10 +57,12 @@ const AddProduct = () => {
           })
           .catch(() => {
             setIsLoading(false);
+            errorAlert("Prova ad effettuare nuovamente la richiesta");
           });
       })
       .catch(() => {
         setIsLoading(false);
+        errorAlert("Prova ad effettuare nuovamente la richiesta");
       });
   };
 

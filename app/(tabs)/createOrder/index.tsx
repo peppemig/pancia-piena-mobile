@@ -13,6 +13,7 @@ import Separator from "../../components/Separator";
 import Button from "../../components/ui/Button";
 import SendOrderModal from "../../components/createOrder/SendOrderModal";
 import { io, Socket } from "socket.io-client";
+import errorAlert from "../../components/errorAlert";
 
 const CreateOrder = () => {
   const { user } = useAuthState();
@@ -77,23 +78,12 @@ const CreateOrder = () => {
           })
           .catch((e) => {
             setIsLoading(false);
-            Alert.alert(
-              "Ooops! C'è stato un problema",
-              e.message,
-              [
-                {
-                  text: "Chiudi",
-                  style: "cancel",
-                },
-              ],
-              {
-                cancelable: true,
-              }
-            );
+            errorAlert("Prova ad effettuare nuovamente la richiesta");
           });
       })
       .catch(() => {
         setIsLoading(false);
+        errorAlert("Prova ad effettuare nuovamente la richiesta");
       });
   };
 

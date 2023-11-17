@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useAuthState } from "../../providers/AuthProvider";
 import { useState, useEffect } from "react";
 import { Order } from "../../types/types";
@@ -9,6 +9,8 @@ import ordersService from "../../api/ordersService";
 import { useFocusEffect } from "expo-router";
 import React from "react";
 import { ORIGIN_URL } from "../../constants/constants";
+import OrderCard from "../../components/orders/OrderCard";
+import errorAlert from "../../components/errorAlert";
 
 type OrderFilter = "in-corso" | "completati";
 
@@ -80,13 +82,16 @@ const Orders = () => {
           .then((res) => {
             setOrders(res.data.orders);
           })
-          .catch(() => {})
+          .catch(() => {
+            errorAlert("Prova ad effettuare nuovamente la richiesta");
+          })
           .finally(() => {
             setIsLoading(false);
           });
       })
       .catch(() => {
         setIsLoading(false);
+        errorAlert("Prova ad effettuare nuovamente la richiesta");
       });
   };
 
@@ -111,9 +116,20 @@ const Orders = () => {
         />
       </View>
       {orders.length > 0 ? (
-        <View>
-          <Text>Qui ci saranno i tuoi ordini</Text>
-        </View>
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1, gap: 6 }}
+        >
+          {orders.map((order) => (
+            <OrderCard
+              setIsLoading={setIsLoading}
+              key={order.id}
+              order={order}
+              filter={ordersFilter}
+              refreshOrders={getOrders}
+            />
+          ))}
+        </ScrollView>
       ) : (
         <Text>Non hai ancora nessun ordine 😐</Text>
       )}

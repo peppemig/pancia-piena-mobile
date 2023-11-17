@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import productsService from "../../api/productsService";
 import { useAuthState } from "../../providers/AuthProvider";
 import EditProductModal from "./EditProductModal";
+import errorAlert from "../errorAlert";
 
 type ProductCardProps = {
   id: string;
@@ -33,10 +34,12 @@ const ProductCard = ({
           .then(() => refreshProducts())
           .catch(() => {
             setIsLoading(false);
+            errorAlert("Prova ad effettuare nuovamente la richiesta");
           });
       })
       .catch(() => {
         setIsLoading(false);
+        errorAlert("Prova ad effettuare nuovamente la richiesta");
       });
   };
 

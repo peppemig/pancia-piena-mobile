@@ -10,6 +10,7 @@ import FilterButton from "../../components/products/FilterButton";
 import ProductCard from "../../components/products/ProductCard";
 import Button from "../../components/ui/Button";
 import LoadingState from "../../components/LoadingState";
+import errorAlert from "../../components/errorAlert";
 
 const Products = () => {
   const { user } = useAuthState();
@@ -47,23 +48,12 @@ const Products = () => {
           })
           .catch((e) => {
             setIsLoading(false);
-            Alert.alert(
-              "Ooops! C'è stato un problema",
-              e.message,
-              [
-                {
-                  text: "Chiudi",
-                  style: "cancel",
-                },
-              ],
-              {
-                cancelable: true,
-              }
-            );
+            errorAlert("Prova ad effettuare nuovamente la richiesta");
           });
       })
       .catch(() => {
         setIsLoading(false);
+        errorAlert("Prova ad effettuare nuovamente la richiesta");
       });
   };
 

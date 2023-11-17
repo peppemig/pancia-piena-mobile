@@ -19,6 +19,7 @@ import Button from "./components/ui/Button";
 import * as z from "zod";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import errorAlert from "./components/errorAlert";
 
 const loginImage = require("../assets/login.svg");
 
@@ -56,19 +57,7 @@ const Login = () => {
       })
       .catch(() => {
         setIsLoading(false);
-        Alert.alert(
-          "Ooops! C'è stato un problema",
-          "Prova ad effettuare nuovamente l'accesso",
-          [
-            {
-              text: "Chiudi",
-              style: "cancel",
-            },
-          ],
-          {
-            cancelable: true,
-          }
-        );
+        errorAlert("Prova ad effettuare nuovamente l'accesso");
       });
   };
 

@@ -14,6 +14,7 @@ import Button from "../ui/Button";
 import { useAuthState } from "../../providers/AuthProvider";
 import { useState } from "react";
 import productsService from "../../api/productsService";
+import errorAlert from "../errorAlert";
 
 const editImage = require("../../../assets/edit-product.svg");
 
@@ -67,11 +68,13 @@ const EditProductModal = ({
           .catch(() => {
             setIsLoading(false);
             setIsVisible(false);
+            errorAlert("Prova ad effettuare nuovamente la richiesta");
           });
       })
       .catch(() => {
         setIsLoading(false);
         setIsVisible(false);
+        errorAlert("Prova ad effettuare nuovamente la richiesta");
       });
   };
 
