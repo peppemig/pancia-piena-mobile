@@ -87,7 +87,10 @@ const OrderCard = ({
       </Text>
       <View>
         {order.orderItems?.map((item) => (
-          <Text style={{ fontWeight: "500", fontSize: 16 }}>
+          <Text
+            key={item.productId}
+            style={{ fontWeight: "500", fontSize: 16 }}
+          >
             {item.quantity} x {item.product.name}
           </Text>
         ))}

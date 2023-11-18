@@ -62,16 +62,6 @@ const Layout = () => {
           ),
         }}
       />
-      <Tabs.Screen
-        name="profile/index"
-        options={{
-          tabBarLabel: "Profilo",
-          title: "Profilo",
-          tabBarIcon: ({ size, color }) => (
-            <Feather name="user" size={size} color={color} />
-          ),
-        }}
-      />
     </Tabs>
   );
 };
