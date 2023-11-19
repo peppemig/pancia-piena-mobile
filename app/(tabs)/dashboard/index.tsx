@@ -14,6 +14,7 @@ import { checkSameDay } from "../../utils/utils";
 import RecentOrderRow from "../../components/dashboard/RecentOrderRow";
 import Button from "../../components/ui/Button";
 import { logOut } from "../../config/firebase";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const Dashboard = () => {
   const { user } = useAuthState();
@@ -24,6 +25,7 @@ const Dashboard = () => {
   const [stats, setStats] = useState<Stats>();
   const [ordersForTheDay, setOrdersForTheDay] = useState<number>();
   const [isLoading, setIsLoading] = useState(false);
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
   const year = calendarDate!.getFullYear();
   const month = calendarDate!.getMonth() + 1;
@@ -87,6 +89,7 @@ const Dashboard = () => {
       let isActive = true;
       getStats();
       return () => {
+        setCalendarDate(new Date());
         isActive = false;
       };
     }, [user])
@@ -101,12 +104,40 @@ const Dashboard = () => {
     }
   }, [stats, calendarDate]);
 
+  useEffect(() => {
+    getStats();
+  }, [user, month, year]);
+
+  const showDatePicker = () => {
+    setIsDatePickerVisible(true);
+  };
+
+  const hideDatePicker = () => {
+    setIsDatePickerVisible(false);
+  };
+
+  const handleConfirm = (date: Date) => {
+    setCalendarDate(date);
+    hideDatePicker();
+  };
+
   if (isLoading) {
     return <LoadingState />;
   }
 
   return (
     <View style={styles.container}>
+      <Button
+        label={formattedDayMonthYear}
+        variant="secondary"
+        onPress={showDatePicker}
+      />
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
       <ScrollView contentContainerStyle={{ gap: 6 }}>
         {stats && Object.keys(stats).length > 0 && (
           <>
