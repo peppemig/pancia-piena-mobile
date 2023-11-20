@@ -11,15 +11,20 @@ import React from "react";
 import { ORIGIN_URL } from "../../constants/constants";
 import OrderCard from "../../components/orders/OrderCard";
 import errorAlert from "../../components/errorAlert";
+import { Ionicons } from "@expo/vector-icons";
 
 type OrderFilter = "in-corso" | "completati";
 
 const Orders = () => {
   const { user } = useAuthState();
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [ordersData, setOrdersData] = useState<{
+    orders: Order[];
+    totalPages?: number;
+  }>();
   const [isLoading, setIsLoading] = useState(false);
   const [ordersFilter, setOrdersFilter] = useState<OrderFilter>("in-corso");
   const [socket, setSocket] = useState<Socket | null>(null);
+  const [page, setPage] = useState(1);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -27,7 +32,7 @@ const Orders = () => {
       getOrders();
       return () => {
         isActive = false;
-        setOrders([]);
+        setOrdersData(undefined);
         setOrdersFilter("in-corso");
       };
     }, [user])
@@ -35,7 +40,7 @@ const Orders = () => {
 
   useEffect(() => {
     getOrders();
-  }, [user, ordersFilter]);
+  }, [user, ordersFilter, page]);
 
   useEffect(() => {
     socket?.on("order-received", () => {
@@ -76,11 +81,11 @@ const Orders = () => {
         const fetchOrders =
           ordersFilter === "in-corso"
             ? ordersService.getOrders(token)
-            : ordersService.getCompletedOrders(token);
+            : ordersService.getCompletedOrdersPaginated(token, page);
 
         fetchOrders
           .then((res) => {
-            setOrders(res.data.orders);
+            setOrdersData(res.data.ordersData);
           })
           .catch(() => {
             errorAlert("Prova ad effettuare nuovamente la richiesta");
@@ -115,21 +120,57 @@ const Orders = () => {
           setOrdersFilter={setOrdersFilter}
         />
       </View>
-      {orders.length > 0 ? (
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={{ flexGrow: 1, gap: 6 }}
-        >
-          {orders.map((order) => (
-            <OrderCard
-              setIsLoading={setIsLoading}
-              key={order.id}
-              order={order}
-              filter={ordersFilter}
-              refreshOrders={getOrders}
-            />
-          ))}
-        </ScrollView>
+      {ordersData && ordersData.orders.length > 0 ? (
+        <>
+          {ordersFilter === "completati" && (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 6,
+              }}
+            >
+              <Ionicons
+                disabled={page === 1}
+                onPress={() => {
+                  if (page === 1) return;
+                  setPage((prev) => prev - 1);
+                }}
+                name="chevron-back-circle-outline"
+                size={30}
+                color={page === 1 ? "gray" : "black"}
+              />
+              <Text style={{ fontWeight: "500", fontSize: 16 }}>
+                Pagina {page} di {ordersData.totalPages}
+              </Text>
+              <Ionicons
+                disabled={page === ordersData.totalPages}
+                onPress={() => {
+                  if (page === ordersData.totalPages) return;
+                  setPage((prev) => prev + 1);
+                }}
+                name="chevron-forward-circle-outline"
+                size={30}
+                color={page === ordersData.totalPages ? "gray" : "black"}
+              />
+            </View>
+          )}
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ flexGrow: 1, gap: 6 }}
+          >
+            {ordersData.orders.map((order) => (
+              <OrderCard
+                setIsLoading={setIsLoading}
+                key={order.id}
+                order={order}
+                filter={ordersFilter}
+                refreshOrders={getOrders}
+              />
+            ))}
+          </ScrollView>
+        </>
       ) : (
         <Text>Non hai ancora nessun ordine 😐</Text>
       )}

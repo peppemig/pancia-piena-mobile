@@ -1,0 +1,33 @@
+{
+  "cli": {
+    "version": ">= 5.9.1"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "env": {
+        "EXPO_PUBLIC_GOOGLE_API_KEY": "AIzaSyAZ5aQHjIpEw4ZUD7tcGDYf1ETFRbVEVEw",
+        "EXPO_PUBLIC_GOOGLE_AUTH_DOMAIN": "pancia-piena.firebaseapp.com",
+        "EXPO_PUBLIC_GOOGLE_PROJECT_ID": "pancia-piena",
+        "EXPO_PUBLIC_GOOGLE_STORAGE_BUCKET": "pancia-piena.appspot.com",
+        "EXPO_PUBLIC_GOOGLE_SENDER_ID": "736436377699",
+        "EXPO_PUBLIC_GOOGLE_APP_ID": "1:736436377699:web:7f4da112834edfc4a64056",
+        "EXPO_PUBLIC_ORIGIN_URL": "https://pp-be.onrender.com/",
+        "EXPO_PUBLIC_API_BASE_URL": "https://pp-be.onrender.com/api/v1"
+      }
+    },
+    "production": {}
+  },
+  "submit": {
+    "production": {}
+  }
+}

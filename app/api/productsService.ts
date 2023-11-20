@@ -4,14 +4,18 @@ import { ProductRequest } from "../types/types";
 
 const getProducts = async (token: string) => {
   const response = await axios.get(`${API_BASE_URL}/products`, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   return response;
 };
 
 const createProduct = async (token: string, product: ProductRequest) => {
   const response = await axios.post(`${API_BASE_URL}/products`, product, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   return response;
 };
@@ -24,14 +28,20 @@ const editProduct = async (
   const response = await axios.put(
     `${API_BASE_URL}/products/${productId}`,
     product,
-    { headers: { Authorization: `Bearer ${token}` } }
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
   return response;
 };
 
 const deleteProduct = async (token: string, productId: string) => {
   const response = await axios.delete(`${API_BASE_URL}/products/${productId}`, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   return response;
 };
