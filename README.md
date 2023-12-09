@@ -23,7 +23,9 @@ The mobile app is developed using React Native, Expo CLI and Firebase
 ## Interface
 
 #### Orders screen (real-time refresh with websockets)
-<img src="[https://github.com/favicon.ico](https://github.com/peppemig/pancia-piena-mobile/assets/120139042/a41ff57b-05bb-4776-bc6d-f9f3d506eccf)" width="48">
+
+<img src="[https://github.com/favicon.ico](https://github.com/peppemig/pancia-piena-mobile/assets/120139042/a41ff57b-05bb-4776-bc6d-f9f3d506eccf)" width="48"/>
+
 ![orders](https://github.com/peppemig/pancia-piena-mobile/assets/120139042/a41ff57b-05bb-4776-bc6d-f9f3d506eccf)
 
 #### Products screen
