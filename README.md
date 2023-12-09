@@ -12,7 +12,7 @@ The mobile app is developed using React Native, Expo CLI and Firebase
 
 - **Expo CLI**
 
-- **Firebase**
+- **Firebase Auth**
 
 ### Frontend - [Click here to go to the frontend repository](https://github.com/peppemig/pancia-piena-fe)
 
